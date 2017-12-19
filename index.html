@@ -16,12 +16,13 @@ canvas.height = window.innerHeight;
 ctx.strokeStyle = '#BADA55';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
-ctx.lineWidth = '50';
+ctx.lineWidth = 5;
 
 let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
 let hue = 0;
+let growing = true;
 
 function draw(e) {
     if (!isDrawing) return; // prevent from drawing if mouse is 'up'
@@ -31,7 +32,22 @@ function draw(e) {
     ctx.lineTo(e.offsetX, e.offsetY);
     ctx.stroke();
     [lastX, lastY] = [e.offsetX, e.offsetY];
+
     hue++;
+    if (hue >= 360) {
+        hue = 0;
+    }
+    if (ctx.lineWidth >= 80 || ctx.lineWidth <= 1) {
+        console.log(growing);
+        growing = !growing;
+    }
+    if (growing) {
+        ctx.lineWidth++;
+    } else {
+        ctx.lineWidth--;
+    }
+
+
 }
 
 canvas.addEventListener('mousedown', (e) => {
